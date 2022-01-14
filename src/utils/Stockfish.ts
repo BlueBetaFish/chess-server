@@ -9,12 +9,9 @@ dotenv.config();
 // path of stockfish executable for linux_x64
 // const STOCKFISH_EXECUTABLE_PATH_LINUX: string = "stockfish/linux_x64/stockfish_linux_x64";
 
-
-// line seperator to split output of engine
-// const LINE_SEPERATOR = "\n";
-
 const STOCKFISH_EXEC_PATH = process.env.STOCKFISH_EXEC_PATH;
-const LINE_SEPERATOR = process.env.LINE_SEPERATOR;
+// line seperator to split output of engine
+const LINE_SEPERATOR = "\n";
 
 /**
  * enum StockfishEngineStatus represents the status of
@@ -73,6 +70,7 @@ export class StockFishInstance {
         this.bestMoveRequestOngoing = false;
         this.bestMoveRequestQueue = new Queue<BestMoveRequest>();
         this.stockfishProcess = spawn(STOCKFISH_EXEC_PATH);
+        console.log("path", STOCKFISH_EXEC_PATH);
         this.stockfishEngineStatus = StockfishEngineStatus.CREATED;
 
         console.log("called spawn");
@@ -87,8 +85,9 @@ export class StockFishInstance {
         });
 
         this.stockfishProcess.stdout.on("data", (data) => {
-            const lines = data.toString().split(LINE_SEPERATOR);
-            // console.log(lines);
+            
+            const lines = data.toString().replace("\r", "").split(LINE_SEPERATOR);
+            console.log(lines);
             for (const line of lines) {
                 const words = line.split(" ");
                 if (words.length < 1) continue;
