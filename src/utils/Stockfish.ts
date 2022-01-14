@@ -68,6 +68,12 @@ export class StockFishInstance {
         this.stockfishProcess = spawn(STOCKFISH_EXECUTABLE_PATH_LINUX);
         this.stockfishEngineStatus = StockfishEngineStatus.CREATED;
 
+        console.log("called spawn");
+
+        this.stockfishProcess.on("err", (err) => {
+            console.log("error", err);
+        })
+ 
         this.stockfishProcess.on("close", (code: number) => {
             this.stockfishEngineStatus = StockfishEngineStatus.CLOSED;
             console.log("Stockfish Exit code:", code);
@@ -75,6 +81,7 @@ export class StockFishInstance {
 
         this.stockfishProcess.stdout.on("data", (data) => {
             const lines = data.toString().split(LINE_SEPERATOR);
+            console.log(lines);
             for (const line of lines) {
                 const words = line.split(" ");
                 if (words.length < 1) continue;
