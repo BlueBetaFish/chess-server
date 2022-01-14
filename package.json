@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node out/index.js",
+    "start": "npm run build && node out/index.js",
     "build": "npx tsc",
     "heroku-postbuild": "chmod 0777 stockfish/linux_x64/stockfish_linux_x64"
   },
