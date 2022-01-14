@@ -1,13 +1,20 @@
 import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 import { Queue } from "./Queue";
+import  dotenv from "dotenv";
+dotenv.config();
 
 // path of stockfish executable for win_x64
-const STOCKFISH_EXECUTABLE_PATH_WIN: string = "stockfish/win_x64/stockfish_win_x64.exe";
+// const STOCKFISH_EXECUTABLE_PATH_WIN: string = "stockfish/win_x64/stockfish_win_x64.exe";
 
 // path of stockfish executable for linux_x64
-const STOCKFISH_EXECUTABLE_PATH_LINUX: string = "stockfish/linux_x64/stockfish_linux_x64";
+// const STOCKFISH_EXECUTABLE_PATH_LINUX: string = "stockfish/linux_x64/stockfish_linux_x64";
+
+
 // line seperator to split output of engine
-const LINE_SEPERATOR = "\n";
+// const LINE_SEPERATOR = "\n";
+
+const STOCKFISH_EXEC_PATH = process.env.STOCKFISH_EXEC_PATH;
+const LINE_SEPERATOR = process.env.LINE_SEPERATOR;
 
 /**
  * enum StockfishEngineStatus represents the status of
@@ -65,7 +72,7 @@ export class StockFishInstance {
         // create a process from stockfish executable
         this.bestMoveRequestOngoing = false;
         this.bestMoveRequestQueue = new Queue<BestMoveRequest>();
-        this.stockfishProcess = spawn(STOCKFISH_EXECUTABLE_PATH_LINUX);
+        this.stockfishProcess = spawn(STOCKFISH_EXEC_PATH);
         this.stockfishEngineStatus = StockfishEngineStatus.CREATED;
 
         console.log("called spawn");
@@ -81,7 +88,7 @@ export class StockFishInstance {
 
         this.stockfishProcess.stdout.on("data", (data) => {
             const lines = data.toString().split(LINE_SEPERATOR);
-            console.log(lines);
+            // console.log(lines);
             for (const line of lines) {
                 const words = line.split(" ");
                 if (words.length < 1) continue;
