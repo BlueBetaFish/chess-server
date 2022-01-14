@@ -7,7 +7,7 @@ const STOCKFISH_EXECUTABLE_PATH_WIN: string = "stockfish/win_x64/stockfish_win_x
 // path of stockfish executable for linux_x64
 const STOCKFISH_EXECUTABLE_PATH_LINUX: string = "stockfish/linux_x64/stockfish_linux_x64";
 // line seperator to split output of engine
-const LINE_SEPERATOR = "\r\n";
+const LINE_SEPERATOR = "\n";
 
 /**
  * enum StockfishEngineStatus represents the status of
