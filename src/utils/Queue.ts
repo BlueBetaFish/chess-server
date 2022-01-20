@@ -17,14 +17,14 @@ class ListNode<Item> {
  * enqueue, dequeue, size and isEmpty
  */
 export class Queue<Item> {
-    private m_head: ListNode<Item>; // dummy head of Queue
-    private m_tail: ListNode<Item>; // last node 
-    private m_size: number;         // size of queue
+    private m_head: ListNode<Item> | null; 
+    private m_tail: ListNode<Item> | null;
+    private m_size: number; 
 
 
     constructor() {
-        this.m_head = new ListNode<Item>();     // dummy node
-        this.m_tail = this.m_head;
+        this.m_head = null;   
+        this.m_tail = null;
         this.m_size = 0;
     }
 
@@ -42,9 +42,12 @@ export class Queue<Item> {
      * @param item inserted at the end of queue
      */
     enqueue(item: Item): void {
-        this.m_tail.next = new ListNode<Item>(item);
-        this.m_tail = this.m_tail.next;
+        const oldtail = this.m_tail;
+        this.m_tail = new ListNode(item);
+        if (this.isEmpty()) this.m_head = this.m_tail;
+        else oldtail.next = this.m_tail;
         this.m_size++;
+        this.log();
     }
 
     /**
@@ -52,10 +55,22 @@ export class Queue<Item> {
      * null if the queue is empty
      */
     dequeue(): Item | null {
-        if (this.m_size == 0) return null;
-        const item = this.m_head.next.item;
-        this.m_head.next = this.m_head.next.next;
+        if (this.isEmpty()) return null;
+        const item = this.m_head.item;
+        this.m_head = this.m_head.next;
         this.m_size--;
+        this.log();
         return item;
+    }
+
+    log() {
+        console.log("-------");
+        console.log(this.m_size);
+        let cur: ListNode<Item> = this.m_head;
+        while (cur !== null) {
+            console.log(cur.item);
+            cur = cur.next;
+        }
+        console.log("-------");
     }
 }

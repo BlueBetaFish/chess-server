@@ -115,6 +115,8 @@ export class StockFishInstance {
 
     bestMoveRequest(request: BestMoveRequest): void {
         console.log("received request", request);
+        // TODO: check if "fen-like" or not
+        // if not a fen-like string stockfish encounters a seg fault
         this.bestMoveRequestQueue.enqueue(request);
         this.consumeRequest();
     }
