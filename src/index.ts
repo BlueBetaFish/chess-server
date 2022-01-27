@@ -1,8 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { StockFishInstance } from "./utils/Stockfish";
+import  dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT;
 
 const stockFishInstance = new StockFishInstance();
 
